@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"b3349980595c436bbcc63cc4febfc4d0","collectionName":"remote_controllers","type":"collection"}

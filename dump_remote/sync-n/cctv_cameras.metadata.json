@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"f53333d4a035483e92c1e786196d0ef1","collectionName":"cctv_cameras","type":"collection"}
