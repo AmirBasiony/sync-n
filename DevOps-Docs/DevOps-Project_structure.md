@@ -93,6 +93,8 @@ expose 27017
 
 
 
-  <!-- amirbasiony66@nNwBzzEHeyUTtFtw -->
+  <!-- amirbasiony66:nNwBzzEHeyUTtFtw -->
 
   <!-- mongodb+srv://amirbasiony66:nNwBzzEHeyUTtFtw@sync-n.vrwjyej.mongodb.net/?retryWrites=true&w=majority&appName=sync-n -->
+
+  mongodb+srv://amirbasiony66:nNwBzzEHeyUTtFtw@sync-n.vrwjyej.mongodb.net/?retryWrites=true&w=majority&appName=sync-n

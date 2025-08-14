@@ -9,61 +9,60 @@ services:
       - "8000:8000"
     env_file:
       - .env
-    #restart: always
     depends_on:
-      # mysql:
-        # condition: service_healthy
-      mongodb:
+      mysql:
         condition: service_healthy
-    # volumes:
-    #   - ./syncn.sql:/usr/local/bin/syncn.sql:ro
-
-  # mysql:
-  #   image: mysql:8.0
-  #   container_name: mysql
-  #   ports:
-  #     - "3307:3306"
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_DATABASE: laravel
-  #     TZ: UTC
-  #   #restart: always
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$$MYSQL_ROOT_PASSWORD --silent"]
-  #     interval: 5s
-  #     retries: 5
-  #   volumes:
-  #     - mysql_data:/var/lib/mysql
-  #     - ./syncn.sql:/docker-entrypoint-initdb.d/syncn.sql:ro
-  #     - ./mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
-
-  mongodb:
-    image: mongo:7.0
-    container_name: mongodb
-    ports:
-      - "27018:27017"
     volumes:
-      - mongodb_data:/data/db
-      - ./dump_remote:/dump_remote:ro
+      - ./syncn.sql:/usr/local/bin/syncn.sql:ro
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3307:3306"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      TZ: UTC
     healthcheck:
-      test: ["CMD", "mongosh", "--username", "root", "--password", "password", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 5s
       retries: 5
-      start_period: 60s
-    
-  mongo-restore:
-    image: mongo:7.0
-    depends_on:
-      mongodb:
-        condition: service_healthy
     volumes:
-      - ./dump_remote:/dump_remote:ro
-    entrypoint: ["sh", "-c", "mongorestore --host mongodb --username root --password password --authenticationDatabase admin /dump_remote"]
+      - mysql_data:/var/lib/mysql
+      - ./syncn.sql:/docker-entrypoint-initdb.d/syncn.sql:ro
+      - ./mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
 
 volumes:
-  # mysql_data:
-  mongodb_data:
+  mysql_data:
+  
+  # mongodb:
+  #   image: mongo:7.0
+  #   container_name: mongodb
+  #   ports:
+  #     - "27018:27017"
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #     - ./dump_remote:/dump_remote:ro
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #   healthcheck:
+  #     test: ["CMD", "mongosh", "--username", "root", "--password", "password", "--eval", "db.adminCommand('ping')"]
+  #     interval: 5s
+  #     retries: 5
+  #     start_period: 60s
+    
+  # mongo-restore:
+  #   image: mongo:7.0
+  #   depends_on:
+  #     mongodb:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./dump_remote:/dump_remote:ro
+  #   entrypoint: ["sh", "-c", "mongorestore --host mongodb --username root --password password --authenticationDatabase admin /dump_remote"]
+
+# volumes:
+#   mysql_data:
+#   mongodb_data:
 

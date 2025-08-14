@@ -78,31 +78,25 @@ return [
             'sslmode'        => 'prefer',
         ],
 
+            // 'mongodb' => [
+            // 'driver'   => 'mongodb',
+            // 'host'     => env('MONGO_DB_HOST'),
+            // 'port'     => env('MONGO_DB_PORT'),
+            // 'database' => env('MONGO_DB_DATABASE'),
+            // 'username' => env('MONGO_DB_USERNAME'),
+            // 'password' => env('MONGO_DB_PASSWORD'),
+            // 'options'  => [
+            //     'authSource' => 'admin',
+            //     'ssl' => false,
+            // ],
             'mongodb' => [
             'driver'   => 'mongodb',
-            'host'     => env('MONGO_DB_HOST'),
-            'port'     => env('MONGO_DB_PORT'),
+            'dsn'      => env('MONGO_DB_URI') . env('MONGO_DB_OPTIONS'),
             'database' => env('MONGO_DB_DATABASE'),
-            'username' => env('MONGO_DB_USERNAME'),
-            'password' => env('MONGO_DB_PASSWORD'),
             'options'  => [
-                'authSource' => 'admin',
-                'ssl' => false,
+                'ssl' => true,
             ],
-        // 'mongodb' => [
-        //     'driver'   => env('MONGO_DB_CONNECTION', 'mongodb'),
-        //     'host'     => env('MONGO_DB_HOST', 'mongo'),
-        //     'port'     => env('MONGO_DB_PORT', 27017),
-        //     'database' => env('MONGO_DB_DATABASE'),
-        //     'username' => env('MONGO_DB_USERNAME'),
-        //     'password' => env('MONGO_DB_PASSWORD'),
-        //     'options'  => [
-        //     'authSource' => 'admin'
-        //     // 'ssl' => false,
-        //     // 'authMechanism' => 'SCRAM-SHA-1', // force SHA-1
-        //     ],
         ],
-
 
         'sqlsrv' => [
             'driver'         => 'sqlsrv',
