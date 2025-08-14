@@ -1,0 +1,20 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+      - ./dump_remote:/dump_remote:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "root", "--password", "password", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  mongodb_data:

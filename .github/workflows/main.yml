@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  
+jobs:
+  run_pull:
+    name: run pull
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+
+    - name: connect and pull
+      run: |
+        ssh -T -o ServerAliveInterval=60 -o ServerAliveCountMax=10 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+        cd ${{ secrets.WORK_DIR }} || exit 1
+        sudo git config --global --add safe.directory /var/www/admin
+        sudo git checkout ${{ secrets.MAIN_BRANCH }} 
+        sudo git stash
+        sudo git pull
+        sudo npm install
+        sudo npm run build
+        EOF
+
+    - name: cleanup
+      run: rm -rf ~/.ssh
